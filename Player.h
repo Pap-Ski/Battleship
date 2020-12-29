@@ -41,3 +41,5 @@ class Player{
 		void modifyOppGrid(int row, int col, char data);		
 };
 #endif
+
+void clearScreen();

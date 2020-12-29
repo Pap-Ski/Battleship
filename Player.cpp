@@ -174,7 +174,7 @@ void Player::placeShip(Ship& ship){
 						}
 					}
 					if(axis=='p'){
-						system("clear");
+						clearScreen();
 						placeShip(ship);
 						break;
 					}
@@ -186,8 +186,8 @@ void Player::placeShip(Ship& ship){
 			(axis == 'l' && col-ship.getLength()<-1));
 		}
 	} while (!posIsValid(pos));
-	system("clear");
-	system("clear");
+	clearScreen();
+	clearScreen();
 	cout << ship.getName() << " ready!" << endl;
 }
 
@@ -223,4 +223,12 @@ void Player::modifyPlayerGrid(int row, int col, char data){
  * *********/
 void Player::modifyOppGrid(int row, int col, char data){
 	opponentGrid.setCellData(row, col, data);
+}
+
+void clearScreen(){
+	#ifdef WINDOWS
+		system("cls");
+	#else
+		system("clear");
+	#endif
 }

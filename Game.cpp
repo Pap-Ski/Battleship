@@ -44,14 +44,14 @@ void shoot(Player &player, Player &opponent){
 					break;
 				}else if(opponent.getPlayerGrid().getCellData(row,col) == ' '){
 					player.modifyOppGrid(row,col,'O');
-					system("clear");
+					clearScreen();
 					cout << "MISS!! :(" << endl;
 					cout << opponent.getName() << " plays next." << endl;
 					checkWinner(player,opponent);
 				} else {
 					opponent.modifyPlayerGrid(row,col,'-');
 					player.modifyOppGrid(row,col,'X');
-					system("clear");
+					clearScreen();
 					cout << "\aHIT!! :)" << endl;
 					checkShipSink(opponent.getDestroyer(),opponent,player);
 					checkShipSink(opponent.getPatrolBoat(),opponent,player);
