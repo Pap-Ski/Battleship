@@ -9,7 +9,7 @@ int main()
 	cout << "\t\t*****PLAYER 1*****\n";
 	Player p1;
 	cout << "\t\t*****PLAYER 1 READY*****\n";
-	system("clear");
+	clearScreen();
 	cout << "\t\t*****PLAYER 2*****\n";
 	Player p2;
 	cout << "\t\t*****PLAYER 2 READY*****\n";
