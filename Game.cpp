@@ -1,5 +1,25 @@
 #include "Game.h"
 
+void playerVSplayer(){
+	cout << "\t\t*****PLAYER 1*****\n";
+	Player p1("player");
+	cout << "\t\t*****PLAYER 1 READY*****\n";
+	clearScreen();
+	cout << "\t\t*****PLAYER 2*****\n";
+	Player p2("player");
+	cout << "\t\t*****PLAYER 2 READY*****\n";
+
+	cout << "\nPlayers ready, and all ships postioned!" << endl;
+	cout << p1.getName() << " will begin." << endl;
+
+	while(!gameOver){
+		shoot(p1, p2);
+		if(gameOver)
+			break;
+		shoot(p2, p1);
+	}
+}
+
 void shoot(Player &player, Player &opponent){
 	char rowLabel;
 	int col, row;

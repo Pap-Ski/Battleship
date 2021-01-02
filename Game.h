@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 
+void playerVSplayer();
+void playerVScpu();
 bool gameOver = false;
 bool hit = false;
 void shoot(Player & player, Player & opponent);

@@ -1,59 +1,33 @@
 #include "Player.h"
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 using namespace std;
 
-Player::Player() :
+Player::Player(string type) :
 	Destroyer("Destroyer",3),Submarine("Submarine",3),
 	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), nOfSunkShips(0)
+	Carrier("Carrier",5), playerType(type),nOfSunkShips(0)
 {
-	cout << "Enter your nickname: ";
-	cin >> name;
-	cout << "Enter a secret symbol to help access your battleships: ";
-	cin >> secretChar;
+	if(playerType == "player"){
+		cout << "Enter your nickname: ";
+		cin >> name;
+		cout << "Enter a secret symbol to help access your battleships: ";
+		cin >> secretChar;
 
-	cout << "Place your ships in the grid" << endl;
+		cout << "Place your ships in the grid" << endl;
+	}
+	if(playerType == "cpu"){
+		name = "cpu";
+		
+	}
 	placeShip(PatrolBoat);
 	placeShip(Destroyer);
 	placeShip(Carrier);
 	placeShip(Submarine);
 	placeShip(Battleship);
 }
-
-/*Player::Player(string pname) :
-Destroyer("Destroyer",3),Submarine("Submarine",3),
-	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), name(pname), nOfSunkShips(0)
-{
-	PatrolBoat.setBeginning(0,0,'h');
-	playerGrid.setCellData(0,0,'P');
-	playerGrid.setCellData(0,1,'P');
-	PatrolBoat.setEnding(0,1);
-	Battleship.setBeginning(1,0,'h');
-	playerGrid.setCellData(1,0,'B');
-	playerGrid.setCellData(1,1,'B');
-	playerGrid.setCellData(1,2,'B');
-	playerGrid.setCellData(1,3,'B');
-	Battleship.setEnding(1,3);
-	Destroyer.setBeginning(2,0,'h');
-	playerGrid.setCellData(2,0,'D');
-	playerGrid.setCellData(2,1,'D');
-	playerGrid.setCellData(2,2,'D');
-	Destroyer.setEnding(2,2);//3
-	Submarine.setBeginning(0,6,'v');
-	playerGrid.setCellData(0,6,'S');
-	playerGrid.setCellData(1,6,'S');
-	playerGrid.setCellData(2,6,'S');
-	Submarine.setEnding(2,6);// 3
-	Carrier.setBeginning(4,0,'h');
-	playerGrid.setCellData(4,0,'-');
-	playerGrid.setCellData(4,1,'-');
-	playerGrid.setCellData(4,2,'-');
-	playerGrid.setCellData(4,3,'-');
-	playerGrid.setCellData(4,4,'-');
-	Carrier.setEnding(4,4);// 5
-}*/
 
 Player::~Player(){}
 
@@ -83,6 +57,13 @@ void Player::showOppGrid(){
  * Purpose: To place a ship leftward, rightward, downward or upward
  * ********************/
 void Player::placeShip(Ship& ship){
+	if(playerType == "cpu"){
+		char axis;
+		srand((unsigned)time(0));
+		char directions[4] = {'l','r','u','d'};
+		axis = rand() % 4;
+	}
+	
 	playerGrid.displayGrid();
 	string pos;
 	char axis;

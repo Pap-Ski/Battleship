@@ -7,6 +7,7 @@
 
 class Player{
 	private:
+		string playerType;
 		Grid playerGrid;
 		Grid opponentGrid;
 		Ship Destroyer,Submarine,PatrolBoat,Battleship,Carrier;
@@ -15,10 +16,11 @@ class Player{
 		int nOfSunkShips;
 
 	public:
-		Player();
-		Player(string pname);
+		Player(string type);
+		//Player(string pname);
 		~Player();
 			// Accessors
+		string getPlayerType() const {return playerType;}
 		string getName() const {return name;}
 		char getSecretChar() const {return secretChar;}
 		int getnOfSunkShips() const {return nOfSunkShips;}
