@@ -6,7 +6,8 @@ using namespace std;
 
 int main()
 {
-	playerVSplayer();
+	//playerVSplayer();
+	playerVScpu();
 
 	return 0;
 }

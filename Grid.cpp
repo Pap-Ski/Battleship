@@ -42,6 +42,17 @@ char Grid::getCellData(int row, int col) const {
 	return myGrid[row][col];
 }
 
+/*Grid &Grid::operator =(const Grid & rhs){
+	//Grid grid;
+	
+	for(int i = 0; i < 10; ++i){
+		for(int j = 0; j < 10; ++j)
+			myGrid[i][j] = rhs.myGrid[i][j];
+	}
+	
+	return *this;
+}*/
+
 bool Grid::rangeOccupied(int row, int col, int size, char axis){
 	bool occupied = false;
 	if(axis == 'r'){

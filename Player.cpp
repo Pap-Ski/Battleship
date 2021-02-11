@@ -5,32 +5,81 @@
 #include <iostream>
 using namespace std;
 
-Player::Player(string type) :
+void Player::placeShipBasedOnAxis(Ship &ship, int row, int col, char axis){
+	if(axis == 'r'){
+		ship.setBeginning(row,col,axis);
+		for(int x = 1; x <= ship.getLength(); col++,x++)
+			playerGrid.setCellData(row,col,ship.getShipSymbol());
+		ship.setEnding(row,col-1);
+	} else if(axis == 'd'){
+		ship.setBeginning(row,col,axis);
+		for(int x = 1; x <= ship.getLength(); row++,x++)
+			playerGrid.setCellData(row,col,ship.getShipSymbol());
+		ship.setEnding(row-1,col);
+	}
+}
+
+void Player::grid1(){
+	int row,col;
+	char axis;
+	
+		// Patrol Boat
+	row = 0; col = 0; axis = 'r';
+	placeShipBasedOnAxis(PatrolBoat,row,col,axis);
+	
+		// Destroyer
+	row = 1; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Destroyer,row,col,axis);
+		
+		// Carrier
+	row = 2; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Carrier,row,col,axis);
+		
+		// Submarine
+	row = 3; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Submarine,row,col,axis);
+		
+		// Battleship
+	row = 4; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Battleship,row,col,axis);
+}
+
+Player::Player(int hah) :
 	Destroyer("Destroyer",3),Submarine("Submarine",3),
 	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), playerType(type),nOfSunkShips(0)
+	Carrier("Carrier",5), name("Nii"), secretChar('n'), nOfSunkShips(0)
 {
-	if(playerType == "player"){
-		cout << "Enter your nickname: ";
-		cin >> name;
-		cout << "Enter a secret symbol to help access your battleships: ";
-		cin >> secretChar;
+	grid1();
+}
 
-		cout << "Place your ships in the grid" << endl;
-	}
-	if(playerType == "cpu"){
-		name = "cpu";
-		
-	}
+Player::Player() :
+	Destroyer("Destroyer",3),Submarine("Submarine",3),
+	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
+	Carrier("Carrier",5), nOfSunkShips(0)
+{}
+
+Player::Player(string pname) : 
+	Destroyer("Destroyer",3),Submarine("Submarine",3),
+	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
+	Carrier("Carrier",5),name(pname),nOfSunkShips(0)
+{}
+
+Player::~Player(){}
+
+void Player::setupPlayer(){
+	cout << "Enter your nickname: ";
+	cin >> name;
+	cout << "Enter a secret symbol to help access your battleships: ";
+	cin >> secretChar;
+
+	cout << "Place your ships in the grid" << endl;
+	
 	placeShip(PatrolBoat);
 	placeShip(Destroyer);
 	placeShip(Carrier);
 	placeShip(Submarine);
 	placeShip(Battleship);
 }
-
-Player::~Player(){}
-
 /*********************
  * Purpose: Display both player and opponents grids
  * *******************/
@@ -42,14 +91,15 @@ void Player::showGrids(){
 void Player::showPlayerGrid(){
 	cout << "\n\t" << name << "'s FLEET\n" << endl;
 	playerGrid.displayGrid();
-	cout << "\t'-' = Part of ship is hit\n" << endl;
+	cout << "\t'X' = HIT, 'O' = MISS" << endl;
+	cout << "\tConsecutive '-' = SUNK SHIP\n" << endl;
 }
 
 void Player::showOppGrid(){
 	cout << "\t" << name << "'s ENEMY REFERENCE GRID\n" << endl;
 	opponentGrid.displayGrid();
 	cout << "\t'X' = HIT, 'O' = MISS" << endl;
-	cout << "\tConsecutive '#' = SUNK SHIP\n" << endl;
+	cout << "\tConsecutive '-' = SUNK SHIP\n" << endl;
 }
 
 /**********************
@@ -57,13 +107,6 @@ void Player::showOppGrid(){
  * Purpose: To place a ship leftward, rightward, downward or upward
  * ********************/
 void Player::placeShip(Ship& ship){
-	if(playerType == "cpu"){
-		char axis;
-		srand((unsigned)time(0));
-		char directions[4] = {'l','r','u','d'};
-		axis = rand() % 4;
-	}
-	
 	playerGrid.displayGrid();
 	string pos;
 	char axis;

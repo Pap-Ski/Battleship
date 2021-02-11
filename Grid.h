@@ -1,5 +1,6 @@
 #ifndef Grid_H
 #define Grid_H
+#include <iostream>
 using namespace std;
 
 class Grid{
@@ -16,6 +17,7 @@ class Grid{
 		bool rangeOccupied(int row, int col, int size, char dir);
 		void setCellData(int row, int col, char data);
 		char getCellData(int row, int col) const;
+		//Grid &operator=(const Grid &rhs);
 		
 };
 
