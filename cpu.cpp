@@ -3,7 +3,6 @@
 Cpu::Cpu() : Player("cpu")
 {
 	generateCpuGrid();
-	//grid1();
 }
 
 Cpu::~Cpu(){};

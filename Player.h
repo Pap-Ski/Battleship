@@ -13,10 +13,11 @@ class Player{
 		string name;
 		char secretChar;
 		int nOfSunkShips;
+		bool hit;
 
 	public:
 		Player();
-		Player(int hah);
+		Player(int hah); // for test purposes
 		Player(string pname); // specifically for cpu constructor
 		~Player();
 			// Accessors
@@ -41,6 +42,8 @@ class Player{
 		void incnOfSunkShips() {nOfSunkShips++;}
 		void modifyPlayerGrid(int row, int col, char data);
 		void modifyOppGrid(int row, int col, char data);
+		bool isHit() {return hit;}
+		void setHit(bool x) {hit = x;}
 		
 		//  test fxns
 		void grid1();

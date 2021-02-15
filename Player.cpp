@@ -28,11 +28,11 @@ void Player::grid1(){
 	placeShipBasedOnAxis(PatrolBoat,row,col,axis);
 	
 		// Destroyer
-	row = 1; col = 0, axis = 'r';
+	row = 1; col = 9, axis = 'd';
 	placeShipBasedOnAxis(Destroyer,row,col,axis);
 		
 		// Carrier
-	row = 2; col = 0, axis = 'r';
+	row = 5; col = 0, axis = 'r';
 	placeShipBasedOnAxis(Carrier,row,col,axis);
 		
 		// Submarine
@@ -47,7 +47,8 @@ void Player::grid1(){
 Player::Player(int hah) :
 	Destroyer("Destroyer",3),Submarine("Submarine",3),
 	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), name("Nii"), secretChar('n'), nOfSunkShips(0)
+	Carrier("Carrier",5), name("Nii"), secretChar('n'), nOfSunkShips(0),
+	hit(false)
 {
 	grid1();
 }
@@ -55,13 +56,13 @@ Player::Player(int hah) :
 Player::Player() :
 	Destroyer("Destroyer",3),Submarine("Submarine",3),
 	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), nOfSunkShips(0)
+	Carrier("Carrier",5), nOfSunkShips(0),hit(false)
 {}
 
 Player::Player(string pname) : 
 	Destroyer("Destroyer",3),Submarine("Submarine",3),
 	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5),name(pname),nOfSunkShips(0)
+	Carrier("Carrier",5),name(pname),nOfSunkShips(0),hit(false)
 {}
 
 Player::~Player(){}

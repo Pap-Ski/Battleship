@@ -2,9 +2,20 @@
 
 void playerVScpu(){
 	srand(time(0));
+	int cpuDifficulty;
+	do{
+		clearScreen();
+		cout << "\n\tCPU DIFFICULTY" << endl;
+		cout << "1. Easy\n";
+		cout << "2. Medium\n";
+		cout << "Select cpu difficulty: ";
+		cin >> cpuDifficulty;
+	} while (cpuDifficulty != 1 && cpuDifficulty != 2);
+	
+	clearScreen();
 	cout << "\t\t*****PLAYER 1*****\n";
-	Player p1(5);
-	//p1.setupPlayer();
+	Player p1;
+	p1.setupPlayer();
 	cout << "\t\t*****PLAYER 1 READY*****\n";
 	//clearScreen();
 	Cpu cpu;
@@ -12,16 +23,20 @@ void playerVScpu(){
 	cout << p1.getName() << " will begin." << endl;
 	
 	while(!gameOver){
-		//p1.showPlayerGrid();
 		shoot(p1, cpu);
 		if(gameOver)
 			break;
-		shoot(cpu, p1);
+		if(cpuDifficulty == 1){
+			cpuEasyShoot(cpu, p1);
+		} else {
+			cpuMediumShoot(cpu,p1);
+		}
 	}
 	
 }
 
 void playerVSplayer(){
+	clearScreen();
 	cout << "\t\t*****PLAYER 1*****\n";
 	Player p1;
 	p1.setupPlayer();
@@ -49,9 +64,9 @@ void shoot(Player & player, Cpu & cpu){
 	string pos;
 
 	do{
-		player.showPlayerGrid(); // for test
+		player.showPlayerGrid();
 		player.showOppGrid();
-		cout << player.getName() << " ,enter postion to target: ";
+		cout << player.getName() << " ,enter position to target: ";
 		cin  >> pos;
 		stringstream ss(pos);
 		ss >> rowLabel >> col;
@@ -85,36 +100,30 @@ void shoot(Player & player, Cpu & cpu){
 				checkShipSink(cpu.getSubmarine(),cpu,player);
 				checkShipSink(cpu.getCarrier(),cpu,player);
 				checkShipSink(cpu.getBattelship(),cpu,player);
-				//cout << player.getName() << ", you play again." << endl;
-				//hit = true;
+				player.setHit(true);
 				checkWinner(player,cpu);
-				/*if(hit && !gameOver){
-					shoot(player,opponent);
-					hit = false;
-					break;
-				} else {
-					continue;
-				}*/
 			}
 		}
 			
 	} while (pos == "1" || !player.posIsValid(pos));
 }
 
-void shoot(Cpu & cpu, Player & player){
-
-	int row, col;
-	row = rand() % 10;
-	col = rand() % 10;
-	//row = 1; col = 0;
+void cpuEasyShoot(Cpu & cpu, Player & player){
+	hrow = rand() % 10;
+	hcol = rand() % 10;
+	row = hrow;
+	col = hcol;
 	
 	if(player.getPlayerGrid().getCellData(row,col) == '-'){
-		shoot(cpu,player);
+		cpuEasyShoot(cpu,player);
 	}else if(cpu.getOpponentGrid().getCellData(row,col) == 'O'){
-		shoot(cpu,player);
+		cpuEasyShoot(cpu,player);
+	}else if(cpu.getOpponentGrid().getCellData(row,col) == 'X'){
+		cpuEasyShoot(cpu,player);
 	}else if(player.getPlayerGrid().getCellData(row,col) == ' '){
 		cpu.modifyOppGrid(row,col,'O');
 		player.modifyPlayerGrid(row,col,'O');
+		cpu.setHit(false);
 	} else {
 		player.modifyPlayerGrid(row,col,'X');
 		cpu.modifyOppGrid(row,col,'X');
@@ -124,15 +133,67 @@ void shoot(Cpu & cpu, Player & player){
 		checkShipSink(player.getSubmarine(),player,cpu);
 		checkShipSink(player.getCarrier(),player,cpu);
 		checkShipSink(player.getBattelship(),player,cpu);
-		hit = true;
-		/*cout << player.getName() << ", you play again." << endl;
-		checkWinner(player,opponent);
-		if(hit && !gameOver){
-			shoot(player,opponent);
-			hit = false;
-			break;
+		cpu.setHit(true);
+	}
+}
+
+void cpuMediumShoot(Cpu & cpu, Player & player){
+	if(cpu.isHit() == false){
+		hrow = rand() % 10;
+		hcol = rand() % 10;
+		row = hrow;
+		col = hcol;
+	
+		if(player.getPlayerGrid().getCellData(row,col) == '-'){
+			cpuMediumShoot(cpu,player);
+		}else if(cpu.getOpponentGrid().getCellData(row,col) == 'O'){
+			cpuMediumShoot(cpu,player);
+		}else if(cpu.getOpponentGrid().getCellData(row,col) == 'X'){
+			cpuMediumShoot(cpu,player);
+		}else if(player.getPlayerGrid().getCellData(row,col) == ' '){
+			cpu.modifyOppGrid(row,col,'O');
+			player.modifyPlayerGrid(row,col,'O');
+			cpu.setHit(false);
 		} else {
-			continue;
+			player.modifyPlayerGrid(row,col,'X');
+			cpu.modifyOppGrid(row,col,'X');
+			cout << "\a";
+			checkShipSink(player.getDestroyer(),player,cpu);
+			checkShipSink(player.getPatrolBoat(),player,cpu);
+			checkShipSink(player.getSubmarine(),player,cpu);
+			checkShipSink(player.getCarrier(),player,cpu);
+			checkShipSink(player.getBattelship(),player,cpu);
+			cpu.setHit(true);
+		}
+	} else {
+		if((player.getPlayerGrid().getCellData(row,col+1) != 'O')
+		&& (player.getPlayerGrid().getCellData(row,col+1) != '-')
+		&& (player.getPlayerGrid().getCellData(row,col+1) != 'X')){
+			col++;
+			cpuIntelliShoot(cpu,player,row,col);
+		} else if((player.getPlayerGrid().getCellData(row+1,col) != 'O')
+			&& (player.getPlayerGrid().getCellData(row+1,col) != '-')
+			&& (player.getPlayerGrid().getCellData(row+1,col) != 'X')){
+			row++;
+			cpuIntelliShoot(cpu,player,row,col); 
+		} else if((player.getPlayerGrid().getCellData(row,col+1) == 'O')
+			|| (player.getPlayerGrid().getCellData(row,col+1) == '-')
+			|| (player.getPlayerGrid().getCellData(row,col+1) != 'X')){
+			cpu.setHit(false);
+		} else if((player.getPlayerGrid().getCellData(row+1,col) == 'O')
+			|| (player.getPlayerGrid().getCellData(row+1,col) == '-')
+			|| (player.getPlayerGrid().getCellData(row+1,col) != 'X')){
+			cpu.setHit(false);
+		}
+		/*else {
+			col = hcol;
+			if((player.getPlayerGrid().getCellData(row,col-1) != 'O')
+			&& (player.getPlayerGrid().getCellData(row,col-1) != '-')
+			&& (player.getPlayerGrid().getCellData(row,col-1) != 'X')
+			&& (player.getPlayerGrid().getCellData(row,col-1) != ' ')){
+				col--;
+				cpuIntelliShoot(cpu,player,row,col);
+			}
 		}*/
 	}
 }
@@ -145,7 +206,7 @@ void shoot(Player &player, Player &opponent){
 
 	do{
 		player.showOppGrid();
-		cout << player.getName() << " ,enter postion to target, "
+		cout << player.getName() << " ,enter position to target, "
 			<< "or press '1' to view your battleships: ";
 		cin  >> pos;
 		if(pos == "1"){
@@ -182,6 +243,7 @@ void shoot(Player &player, Player &opponent){
 				}else if(opponent.getPlayerGrid().getCellData(row,col) == ' '){
 					player.modifyOppGrid(row,col,'O');
 					opponent.modifyPlayerGrid(row,col,'O');
+					player.setHit(false);
 					clearScreen();
 					cout << "MISS!! :(" << endl;
 					cout << opponent.getName() << " plays next." << endl;
@@ -197,11 +259,11 @@ void shoot(Player &player, Player &opponent){
 					checkShipSink(opponent.getCarrier(),opponent,player);
 					checkShipSink(opponent.getBattelship(),opponent,player);
 					cout << player.getName() << ", you play again." << endl;
-					hit = true;
+					player.setHit(true);
 					checkWinner(player,opponent);
-					if(hit && !gameOver){
+					if(player.isHit() && !gameOver){
 						shoot(player,opponent);
-						hit = false;
+						player.setHit(false);
 						break;
 					} else {
 						continue;
@@ -295,5 +357,23 @@ void checkWinner(Player & player, Player & opponent){
 	}else if(opponent.getnOfSunkShips() == 5 && opponent.getnOfSunkShips() > player.getnOfSunkShips()){
 		cout << "\n" << player.getName() << " WINS!!!" << endl;
 		gameOver = true;
+	}
+}
+
+void cpuIntelliShoot(Cpu & cpu, Player & player, int row, int col){
+	if(player.getPlayerGrid().getCellData(row,col) == ' '){
+		cpu.modifyOppGrid(row,col,'O');
+		player.modifyPlayerGrid(row,col,'O');
+		cpu.setHit(false);
+	} else {
+		player.modifyPlayerGrid(row,col,'X');
+		cpu.modifyOppGrid(row,col,'X');
+		cout << "\a";
+		checkShipSink(player.getDestroyer(),player,cpu);
+		checkShipSink(player.getPatrolBoat(),player,cpu);
+		checkShipSink(player.getSubmarine(),player,cpu);
+		checkShipSink(player.getCarrier(),player,cpu);
+		checkShipSink(player.getBattelship(),player,cpu);
+		cpu.setHit(true);
 	}
 }
