@@ -1,62 +1,86 @@
 #include "Player.h"
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 using namespace std;
+
+void Player::placeShipBasedOnAxis(Ship &ship, int row, int col, char axis){
+	if(axis == 'r'){
+		ship.setBeginning(row,col,axis);
+		for(int x = 1; x <= ship.getLength(); col++,x++)
+			playerGrid.setCellData(row,col,ship.getShipSymbol());
+		ship.setEnding(row,col-1);
+	} else if(axis == 'd'){
+		ship.setBeginning(row,col,axis);
+		for(int x = 1; x <= ship.getLength(); row++,x++)
+			playerGrid.setCellData(row,col,ship.getShipSymbol());
+		ship.setEnding(row-1,col);
+	}
+}
+
+void Player::grid1(){
+	int row,col;
+	char axis;
+	
+		// Patrol Boat
+	row = 0; col = 0; axis = 'r';
+	placeShipBasedOnAxis(PatrolBoat,row,col,axis);
+	
+		// Destroyer
+	row = 1; col = 9, axis = 'd';
+	placeShipBasedOnAxis(Destroyer,row,col,axis);
+		
+		// Carrier
+	row = 5; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Carrier,row,col,axis);
+		
+		// Submarine
+	row = 3; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Submarine,row,col,axis);
+		
+		// Battleship
+	row = 4; col = 0, axis = 'r';
+	placeShipBasedOnAxis(Battleship,row,col,axis);
+}
+
+Player::Player(int hah) :
+	Destroyer("Destroyer",3),Submarine("Submarine",3),
+	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
+	Carrier("Carrier",5), name("Nii"), secretChar('n'), nOfSunkShips(0),
+	hit(false)
+{
+	grid1();
+}
 
 Player::Player() :
 	Destroyer("Destroyer",3),Submarine("Submarine",3),
 	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), nOfSunkShips(0)
-{
+	Carrier("Carrier",5), nOfSunkShips(0),hit(false)
+{}
+
+Player::Player(string pname) : 
+	Destroyer("Destroyer",3),Submarine("Submarine",3),
+	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
+	Carrier("Carrier",5),name(pname),nOfSunkShips(0),hit(false)
+{}
+
+Player::~Player(){}
+
+void Player::setupPlayer(){
 	cout << "Enter your nickname: ";
 	cin >> name;
 	cout << "Enter a secret symbol to help access your battleships: ";
 	cin >> secretChar;
 
 	cout << "Place your ships in the grid" << endl;
+	
 	placeShip(PatrolBoat);
 	placeShip(Destroyer);
 	placeShip(Carrier);
 	placeShip(Submarine);
 	placeShip(Battleship);
 }
-
-/*Player::Player(string pname) :
-Destroyer("Destroyer",3),Submarine("Submarine",3),
-	PatrolBoat("Patrol Boat",2),Battleship("Battleship",4),
-	Carrier("Carrier",5), name(pname), nOfSunkShips(0)
-{
-	PatrolBoat.setBeginning(0,0,'h');
-	playerGrid.setCellData(0,0,'P');
-	playerGrid.setCellData(0,1,'P');
-	PatrolBoat.setEnding(0,1);
-	Battleship.setBeginning(1,0,'h');
-	playerGrid.setCellData(1,0,'B');
-	playerGrid.setCellData(1,1,'B');
-	playerGrid.setCellData(1,2,'B');
-	playerGrid.setCellData(1,3,'B');
-	Battleship.setEnding(1,3);
-	Destroyer.setBeginning(2,0,'h');
-	playerGrid.setCellData(2,0,'D');
-	playerGrid.setCellData(2,1,'D');
-	playerGrid.setCellData(2,2,'D');
-	Destroyer.setEnding(2,2);//3
-	Submarine.setBeginning(0,6,'v');
-	playerGrid.setCellData(0,6,'S');
-	playerGrid.setCellData(1,6,'S');
-	playerGrid.setCellData(2,6,'S');
-	Submarine.setEnding(2,6);// 3
-	Carrier.setBeginning(4,0,'h');
-	playerGrid.setCellData(4,0,'-');
-	playerGrid.setCellData(4,1,'-');
-	playerGrid.setCellData(4,2,'-');
-	playerGrid.setCellData(4,3,'-');
-	playerGrid.setCellData(4,4,'-');
-	Carrier.setEnding(4,4);// 5
-}*/
-
-Player::~Player(){}
-
 /*********************
  * Purpose: Display both player and opponents grids
  * *******************/
@@ -68,14 +92,15 @@ void Player::showGrids(){
 void Player::showPlayerGrid(){
 	cout << "\n\t" << name << "'s FLEET\n" << endl;
 	playerGrid.displayGrid();
-	cout << "\t'-' = Part of ship is hit\n" << endl;
+	cout << "\t'X' = HIT, 'O' = MISS" << endl;
+	cout << "\tConsecutive '-' = SUNK SHIP\n" << endl;
 }
 
 void Player::showOppGrid(){
 	cout << "\t" << name << "'s ENEMY REFERENCE GRID\n" << endl;
 	opponentGrid.displayGrid();
 	cout << "\t'X' = HIT, 'O' = MISS" << endl;
-	cout << "\tConsecutive '#' = SUNK SHIP\n" << endl;
+	cout << "\tConsecutive '-' = SUNK SHIP\n" << endl;
 }
 
 /**********************

@@ -6,19 +6,22 @@
 #include "Ship.cpp"
 
 class Player{
-	private:
+	protected:
 		Grid playerGrid;
 		Grid opponentGrid;
 		Ship Destroyer,Submarine,PatrolBoat,Battleship,Carrier;
 		string name;
 		char secretChar;
 		int nOfSunkShips;
+		bool hit;
 
 	public:
 		Player();
-		Player(string pname);
+		Player(int hah); // for test purposes
+		Player(string pname); // specifically for cpu constructor
 		~Player();
 			// Accessors
+		void setupPlayer();
 		string getName() const {return name;}
 		char getSecretChar() const {return secretChar;}
 		int getnOfSunkShips() const {return nOfSunkShips;}
@@ -38,7 +41,13 @@ class Player{
 		bool posIsValid(string pos);
 		void incnOfSunkShips() {nOfSunkShips++;}
 		void modifyPlayerGrid(int row, int col, char data);
-		void modifyOppGrid(int row, int col, char data);		
+		void modifyOppGrid(int row, int col, char data);
+		bool isHit() {return hit;}
+		void setHit(bool x) {hit = x;}
+		
+		//  test fxns
+		void grid1();
+		void placeShipBasedOnAxis(Ship &ship, int row, int col, char axis);		
 };
 #endif
 
