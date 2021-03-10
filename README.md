@@ -10,7 +10,11 @@ Guesses(again, with RowColumn positioning) are made in turns to hit parts of opp
 
 Main objective of each player is to destroy all the opposing player's fleets. Hence, the game is over when all of a player's ships has been sunk, with the opposing player consequently having the lesser number of sunk ships being the winner.
 
+# New Features
+- Single and Multiplayer modes
+- Cpu difficulty level
+
 # Updates to be made
-- Single player mode(against AI/CPU)
+- Improve Cpu feature for harder difficulty level
 - Add about and how to play sections
 - Possible addition of color codes for ships
