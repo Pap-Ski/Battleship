@@ -1,5 +1,37 @@
 #include "Game.h"
 
+void playGame(){
+	int mode;
+	do{
+		clearScreen();
+		cout << "\n\tMODE SELECTION" << endl;
+		cout << "\n1. Single Player\n";
+		cout << "2. Multiplayer\n";
+		cout << "Select a mode: ";
+		cin >> mode;
+	}while(mode != 1 && mode != 2);
+	
+	if(mode == 1){
+		playerVScpu();
+	} else {
+		playerVSplayer();
+	}
+}
+
+void howToPlay(){
+	ifstream howTo("HowToPlay");
+	char ch;
+	while(howTo.get(ch)){
+		cout << ch << flush;
+		usleep(1000);
+	}
+	howTo.close();
+	cout << "\nPress any key and hit <enter> to play game....";
+	cin >> ch;
+	if(ch)
+		playGame();
+}
+
 void playerVScpu(){
 	srand(time(0));
 	int cpuDifficulty;

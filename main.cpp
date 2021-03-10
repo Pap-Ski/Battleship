@@ -10,20 +10,23 @@ int main()
 	cout << "\t\t" << string(30,'*') << endl;
 	cout << "\t\t*\t" << "   BATTLESHIP" << "\t     *" << endl;
 	cout << "\t\t" << string(30,'*') << endl; 
-	int mode;
-	do{
-		cout << "\n\tMODE SELECTION" << endl;
-		cout << "\n1. Single Player\n";
-		cout << "2. Multiplayer\n";
-		cout << "Select a mode: ";
-		cin >> mode;
-	}while(mode != 1 && mode != 2);
 	
-	if(mode == 1){
-		playerVScpu();
-	} else {
-		playerVSplayer();
-	}
+	int mainMenuOption;
+	do{
+		cout << "\n\tMAIN MENU" << endl;
+		cout << "\n1. Play Game\n";
+		cout << "2. How to Play\n";
+		cout << "Select an option: ";
+		cin >> mainMenuOption;
+		
+		if(mainMenuOption == 1){
+			playGame();
+		}else if(mainMenuOption == 2){
+			howToPlay();
+		}
+	}while(mainMenuOption != 1 && mainMenuOption != 2);
+	
+	
 
 	return 0;
 }

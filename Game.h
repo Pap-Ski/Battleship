@@ -5,8 +5,10 @@
 #include "cpu.h"
 #include "cpu.cpp"
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <cstdlib>
+#include <unistd.h>
 	
 	// Game variables
 bool gameOver = false;
@@ -16,6 +18,9 @@ int row;
 int col;
 int hrow;
 int hcol; 
+
+void playGame();
+void howToPlay();
 
 		// Functions for Multiplayer
 void playerVSplayer();

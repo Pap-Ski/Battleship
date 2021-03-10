@@ -1,0 +1,30 @@
+				HOW TO PLAY
+
+ABOUT GAME
+Batttleship is a strategy type guessing game which imitates a seawar between two different captains. All captains have their five(5) ships(PatrolBoat, Submarine, Battleship, Carrier and Destroyer), with each ship having a specific size, strategically placed awaiting a shot from the opposing captain.
+Both captains shoot in turns in attempt to sunk each other's ships until all a captain's ships are destroyed/sunk. The captain with the lesser number of ships is the winner.
+The game has two modes, single player and multiplayer.
+
+PLAYER FEATURES:
+The player has two(2) grids; a Fleet Grid(showing the player's ships) and a Reference Grid(a blank grid showing hits and misses with reference to the opponent).
+
+The Fleet Grid has symbols of this representation;
+	'P', 'S', 'C', 'D', 'B' : PatrolBoat, Submarine, Carrier, Destroyer and Battleship respectively
+		'X'	   	: Hit
+		'O'		: Miss
+	Consecutive '-'		: Sunk ship
+
+The Reference Grid has symbols of this representation;
+		'X'		: Hit
+		'O'		: Miss
+	Consectutive '-'	: Sunk ship
+
+
+SINGLE PLAYER:
+First, you choose a difficulty. After entering your nickname, you proceed to place your ships in a grid by indicating the starting point with a RowColumn identifier(e.g. a5), and then indicating the direction to which the ship will be placed, be it leftwards, rightwards, upwards or downwards.
+As the game has started, you use the same RowColumn identifier to target or shoot at your opponents(CPU) fleet. CPU also shoots at your fleet afterwards. This happens continuously until there is a winner.
+
+MULTIPLAYER:
+First, both players enter their nicknames and a secret symbol to be able to access/view their fleet, since they are not shown on the screen. They proceed to place their ships in a grid by indicattin the starting point with a RowColmn identifier(e.g. a5), and then indicating the direction to which the ship will be placed, be it leftwards, rightwards, upwards or downwards.
+As the game has started, both players use the same RowColumn identifier to target or shoot at each other's fleets, in turns. A player gets another chance to shoot when he got a hit in the previous shot. This happens continuously intil there is a winner.
+ 
